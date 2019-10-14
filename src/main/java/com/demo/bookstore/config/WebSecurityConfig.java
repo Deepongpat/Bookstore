@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -44,6 +45,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
+
+	@Override
+    public void configure(WebSecurity web) throws Exception {
+        // Filters will not get executed for the resources
+        web.ignoring().antMatchers("/", "/createUser","/books","/getBook","/getBookRecommend","/resources/**", "/static/**", "/public/**", "/webui/**", "/h2-console/**"
+            , "/configuration/**", "/swagger-ui/**", "/swagger-resources/**", "/api-docs", "/api-docs/**", "/v2/api-docs/**"
+            , "/*.html", "/**/*.html" ,"/**/*.css","/**/*.js","/**/*.png","/**/*.jpg", "/**/*.gif", "/**/*.svg", "/**/*.ico", "/**/*.ttf","/**/*.woff","/**/*.otf");
+    }
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
